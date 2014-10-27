@@ -104,7 +104,8 @@ public class SearchableAttributeDAOOjbImpl extends PersistenceBrokerDaoSupport i
 		Criteria crit = new Criteria();
 		crit.addEqualTo("documentId", documentId);
 		crit.addEqualTo("searchableAttributeKey", key);
-
+        
+        // UA UPGRADE
         // --------------------------->performance tuning
         ReportQueryByCriteria query = QueryFactory.newReportQuery(SearchableAttributeStringValue.class, crit);
         query.setAttributes(new String[]{"searchableAttributeValue"});
