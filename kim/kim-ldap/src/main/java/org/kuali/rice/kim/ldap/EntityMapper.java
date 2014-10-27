@@ -78,6 +78,7 @@ public class EntityMapper extends BaseMapper<Entity> {
         person.setNames(names);
         person.setId(entityId);
         
+        // UA UPGRADE - original call did not return Builder so got ClassCastException
         final EntityEmployment.Builder employmentInfo = (EntityEmployment.Builder) getEmploymentMapper().mapBuilderFromContext(context);
         final EntityAffiliation.Builder employeeAffiliation = getAffiliation(getConstants().getEmployeeAffiliationCodes(), person);
         
@@ -95,6 +96,7 @@ public class EntityMapper extends BaseMapper<Entity> {
         person.setPrincipals(new ArrayList<Principal.Builder>());
         person.setActive(true);
         
+        // UA UPGRADE - don't add principal with no name - causes exception
         if (StringUtils.isNotBlank(principalName)) {
             final Principal.Builder defaultPrincipal = Principal.Builder.create(principalName);
             defaultPrincipal.setPrincipalId(entityId);

@@ -76,6 +76,7 @@ public class EntityDefaultMapper extends BaseMapper<EntityDefault> {
         //inactivate unless we find a matching affiliation
         person.setActive(true);
         
+        // UA UPGRADE - don't add principal with no name - causes exception
         if (StringUtils.isNotBlank(principalName)) {
             final Principal.Builder defaultPrincipal = Principal.Builder.create(principalName);
             defaultPrincipal.setPrincipalId(entityId);
