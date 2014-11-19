@@ -18,6 +18,7 @@ package org.kuali.rice.kim.service.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.jws.WebParam;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -30,6 +31,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.dao.LdapPrincipalDao;
 import org.kuali.rice.kim.impl.identity.IdentityServiceImpl;
+import org.kuali.rice.kim.service.LdapIdentityService;
 
 /**
  * Implementation of {@link IdentityService} that communicates with and serves information
@@ -38,7 +40,8 @@ import org.kuali.rice.kim.impl.identity.IdentityServiceImpl;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl {
+// UA UPGRADE - implement LdapIdentityService interface
+public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl implements LdapIdentityService {
     private LdapPrincipalDao principalDao;
 
     @Override
@@ -225,4 +228,9 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl {
     public LdapPrincipalDao getPrincipalDao() {
         return principalDao;
     } 
+    
+    // UA UPGRADE
+    public List<EntityDefault> findEntityDefaults(Map<String, String> criteria, boolean unbounded) {
+        return principalDao.lookupEntityDefault(criteria, unbounded);
+    }
 }
