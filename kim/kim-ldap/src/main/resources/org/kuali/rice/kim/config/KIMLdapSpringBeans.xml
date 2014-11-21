@@ -243,6 +243,6 @@
       <property name="principalDao" ref="ldapPrincipalDao" />
     </bean>
 
-<!--     <bean id="kimUiDocumentService" class="org.kuali.rice.kim.service.impl.LdapUiDocumentServiceImpl" /> -->
-    
+    <!-- **AZ UPGRADE 3.0-5.3** -->
+    <bean id="kimUiDocumentService" class="org.kuali.rice.kim.service.impl.LdapUiDocumentServiceImpl" /> 
 </beans>

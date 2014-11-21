@@ -96,12 +96,12 @@ public class EntityMapper extends BaseMapper<Entity> {
         person.setPrincipals(new ArrayList<Principal.Builder>());
         person.setActive(true);
         
-        // UA UPGRADE - don't add principal with no name - causes exception
+        // **AZ UPGRADE 3.0-5.3** - don't add principal with no name - causes exception
         if (StringUtils.isNotBlank(principalName)) {
             final Principal.Builder defaultPrincipal = Principal.Builder.create(principalName);
             defaultPrincipal.setPrincipalId(entityId);
             defaultPrincipal.setEntityId(entityId);
-        
+            defaultPrincipal.setActive(true);
             person.getPrincipals().add(defaultPrincipal);
         }
         

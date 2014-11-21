@@ -73,6 +73,7 @@ public class EntityDefaultMapper extends BaseMapper<EntityDefault> {
 
         person.setEntityId(entityId);
         person.setPrincipals(new ArrayList<Principal.Builder>()); 
+        
         //inactivate unless we find a matching affiliation
         person.setActive(true);
  
@@ -81,7 +82,7 @@ public class EntityDefaultMapper extends BaseMapper<EntityDefault> {
             final Principal.Builder defaultPrincipal = Principal.Builder.create(principalName);
             defaultPrincipal.setPrincipalId(entityId);
             defaultPrincipal.setEntityId(entityId);
-
+            defaultPrincipal.setActive(true);
             person.getPrincipals().add(defaultPrincipal);
         }
         

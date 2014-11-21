@@ -124,14 +124,13 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
             throw new RiceIllegalArgumentException("principalName is blank");
         }
 
-        // **AZ UPGRADE 3.0-5.3** - hit db first so system users take precedence
-        EntityDefault retval = super.getEntityDefaultByPrincipalName(principalName);
-        
-        if (retval == null) {
-            retval = getPrincipalDao().getEntityDefaultByPrincipalName(principalName);
-        }
-        
+        final EntityDefault retval = getPrincipalDao().getEntityDefaultByPrincipalName(principalName);
+        if (retval != null) {
         return retval;
+	}
+        else {
+            return super.getEntityDefaultByPrincipalName(principalName);
+        }
 	}
     
 	
@@ -214,14 +213,12 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
             throw new RiceIllegalArgumentException("principalName is blank");
         }
 
-        // **AZ UPGRADE 3.0-5.3** - hit db first so system users take precedence
-        Principal retval = super.getPrincipalByPrincipalName(principalName);
-        
-        if (retval == null) {
-            retval = getPrincipalDao().getPrincipalByName(principalName);
+        final Principal edsInfo = getPrincipalDao().getPrincipalByName(principalName);
+        if (edsInfo != null) {
+            return edsInfo;
+        } else {
+            return super.getPrincipalByPrincipalName(principalName);
         }
-        
-        return retval;
     }
 
     public void setPrincipalDao(LdapPrincipalDao principalDao) {
