@@ -43,7 +43,7 @@ import org.kuali.rice.kim.service.LdapIdentityService;
 // **AZ UPGRADE 3.0-5.3** - implement LdapIdentityService interface
 public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl implements LdapIdentityService {
     private LdapPrincipalDao principalDao;
-
+    
     @Override
 	public Entity getEntity(String entityId) {
         if (StringUtils.isBlank(entityId)) {
