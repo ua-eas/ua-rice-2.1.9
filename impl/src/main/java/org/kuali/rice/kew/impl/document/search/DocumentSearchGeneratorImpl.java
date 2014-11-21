@@ -383,6 +383,7 @@ public class DocumentSearchGeneratorImpl implements DocumentSearchGenerator {
 
         String sqlPrefix = "Select * from (";
         
+        // **AZ UPGRADE 3.0-5.3** - enhance performance by using parallel query if possible
         if (dbPlatform instanceof OracleDatabasePlatform) {
             sqlPrefix = "Select /*+ PARALLEL (AUTO) */ * from (";
         }

@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 
-// UA UPGRADE add findEntityDefaults(Map<String, String> criteria, boolean unbounded) method to base IdentityService interface
+// **AZ UPGRADE 3.0-5.3** - add findEntityDefaults(Map<String, String> criteria, boolean unbounded) method to base IdentityService interface
 public interface LdapIdentityService extends IdentityService {
     public List<EntityDefault> findEntityDefaults(Map<String, String> criteria, boolean unbounded);
 }

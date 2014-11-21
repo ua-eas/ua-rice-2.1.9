@@ -105,8 +105,7 @@ public class SearchableAttributeDAOOjbImpl extends PersistenceBrokerDaoSupport i
 		crit.addEqualTo("documentId", documentId);
 		crit.addEqualTo("searchableAttributeKey", key);
         
-        // UA UPGRADE
-        // --------------------------->performance tuning
+        // **AZ UPGRADE 3.0-5.3** - enhance performance by using report query
         ReportQueryByCriteria query = QueryFactory.newReportQuery(SearchableAttributeStringValue.class, crit);
         query.setAttributes(new String[]{"searchableAttributeValue"});
         Iterator iterator = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
@@ -125,16 +124,6 @@ public class SearchableAttributeDAOOjbImpl extends PersistenceBrokerDaoSupport i
             lRet.add(value);
         }
         
-/*
-        Collection<SearchableAttributeStringValue> collection = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(SearchableAttributeStringValue.class, crit));
-
-		if(collection != null && !collection.isEmpty()){
-			lRet = new ArrayList<String>();
-			for(SearchableAttributeStringValue value:collection){
-				lRet.add(value.getSearchableAttributeValue());
-			}
-		}
-*/
 		return lRet;
 	}
 

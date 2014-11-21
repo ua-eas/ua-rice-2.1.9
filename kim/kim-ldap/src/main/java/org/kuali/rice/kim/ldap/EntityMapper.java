@@ -78,7 +78,7 @@ public class EntityMapper extends BaseMapper<Entity> {
         person.setNames(names);
         person.setId(entityId);
         
-        // UA UPGRADE - original call did not return Builder so got ClassCastException
+        // **AZ UPGRADE 3.0-5.3** - original call did not return Builder so got ClassCastException
         final EntityEmployment.Builder employmentInfo = (EntityEmployment.Builder) getEmploymentMapper().mapBuilderFromContext(context);
         final EntityAffiliation.Builder employeeAffiliation = getAffiliation(getConstants().getEmployeeAffiliationCodes(), person);
         

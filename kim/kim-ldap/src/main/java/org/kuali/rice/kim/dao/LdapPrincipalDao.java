@@ -74,7 +74,7 @@ public interface LdapPrincipalDao {
 
 	List<String> lookupEntityIds(Map<String,String> searchCriteria);
     
-    // UA UPGRADE - expose this method
+    // **AZ UPGRADE 3.0-5.3** - expose this method for ldap implementation
     List<EntityDefault> lookupEntityDefault(Map<String,String> searchCriteria, boolean unbounded);
 
 	EntityPrivacyPreferences getEntityPrivacyPreferences(String entityId);

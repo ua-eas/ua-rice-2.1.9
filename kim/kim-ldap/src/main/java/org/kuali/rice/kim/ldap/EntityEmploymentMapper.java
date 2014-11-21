@@ -47,7 +47,7 @@ public class EntityEmploymentMapper extends BaseMapper<EntityEmployment> {
         employee.setEmployeeType(CodedAttribute.Builder.create("P"));
         employee.setBaseSalaryAmount(KualiDecimal.ZERO);
         
-        // UA UPGRADE - want primary department and employeeId populated
+        // **AZ UPGRADE 3.0-5.3** - want primary department and employeeId populated
         employee.setPrimaryDepartmentCode(departmentCode);
         employee.setEmployeeId(employee.getId());
         

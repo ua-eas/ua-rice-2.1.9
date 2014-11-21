@@ -15,13 +15,6 @@
  */
 package org.kuali.rice.krad;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.SessionTicket;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.SessionTicket;
 
 /**
  * Holds info about the User Session
@@ -82,6 +80,8 @@ public class UserSession implements Serializable {
             throw new IllegalArgumentException(
                     "Failed to locate a principal with principal name '" + principalName + "'");
         }
+        
+        System.out.println("------------------------------------>" + person.getFirstName() + " " + person.getLastName());
     }
 
     /**

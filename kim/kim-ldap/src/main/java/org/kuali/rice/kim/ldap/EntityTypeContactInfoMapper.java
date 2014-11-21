@@ -54,7 +54,7 @@ public class EntityTypeContactInfoMapper extends BaseMapper<EntityTypeContactInf
         
         EntityPhone.Builder b = getPhoneMapper().mapBuilderFromContext(context);
         
-        // UA UPGRADE - only add if not null
+        // **AZ UPGRADE 3.0-5.3** -  only add if not null
         if (b != null) {
             phone.add(b);
         }

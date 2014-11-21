@@ -73,8 +73,6 @@ public class DocumentSearchDAOJdbcImpl implements DocumentSearchDAO {
                         
                         String sql = documentSearchGenerator.generateSearchSql(criteria, searchFields);
 
-                        System.out.println("search sql: " + sql);
-                        
                         perfLog.log("Time to generate search sql from documentSearchGenerator class: " + documentSearchGenerator
                                 .getClass().getName(), true);
                         LOG.info("Executing document search with statement max rows: " + statement.getMaxRows());

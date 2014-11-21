@@ -40,7 +40,7 @@ import org.kuali.rice.kim.service.LdapIdentityService;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-// UA UPGRADE - implement LdapIdentityService interface
+// **AZ UPGRADE 3.0-5.3** - implement LdapIdentityService interface
 public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl implements LdapIdentityService {
     private LdapPrincipalDao principalDao;
 
@@ -113,8 +113,7 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
         final EntityDefault retval = getPrincipalDao().getEntityDefaultByPrincipalId(principalId);
         if (retval != null) {
             return retval;
-        }
-        else {
+        } else {
             return super.getEntityDefaultByPrincipalId(principalId);
         }
 	}
@@ -125,13 +124,14 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
             throw new RiceIllegalArgumentException("principalName is blank");
         }
 
-        final EntityDefault retval = getPrincipalDao().getEntityDefaultByPrincipalName(principalName);
-        if (retval != null) {
-            return retval;
+        // **AZ UPGRADE 3.0-5.3** - hit db first so system users take precedence
+        EntityDefault retval = super.getEntityDefaultByPrincipalName(principalName);
+        
+        if (retval == null) {
+            retval = getPrincipalDao().getEntityDefaultByPrincipalName(principalName);
         }
-        else {
-            return super.getEntityDefaultByPrincipalName(principalName);
-        }
+        
+        return retval;
 	}
     
 	
@@ -176,7 +176,8 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
         }
 
         final Principal edsInfo = getPrincipalDao().getPrincipal(principalId);
-            if (edsInfo != null) {
+        
+        if (edsInfo != null) {
 	        return edsInfo;
 	    } else {
 	        return super.getPrincipal(principalId);
@@ -213,12 +214,14 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
             throw new RiceIllegalArgumentException("principalName is blank");
         }
 
-        final Principal edsInfo = getPrincipalDao().getPrincipalByName(principalName);
-        if (edsInfo != null) {
-            return edsInfo;
-        } else {
-            return super.getPrincipalByPrincipalName(principalName);
+        // **AZ UPGRADE 3.0-5.3** - hit db first so system users take precedence
+        Principal retval = super.getPrincipalByPrincipalName(principalName);
+        
+        if (retval == null) {
+            retval = getPrincipalDao().getPrincipalByName(principalName);
         }
+        
+        return retval;
     }
 
     public void setPrincipalDao(LdapPrincipalDao principalDao) {
@@ -229,7 +232,7 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
         return principalDao;
     } 
     
-    // UA UPGRADE
+    // **AZ UPGRADE 3.0-5.3** - implement LdapIdentityService interface
     public List<EntityDefault> findEntityDefaults(Map<String, String> criteria, boolean unbounded) {
         return principalDao.lookupEntityDefault(criteria, unbounded);
     }
