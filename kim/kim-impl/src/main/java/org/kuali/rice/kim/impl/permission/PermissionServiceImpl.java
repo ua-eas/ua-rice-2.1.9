@@ -170,8 +170,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         List<String> roleIds = getRoleIdsForPermissionTemplate(namespaceCode, permissionTemplateName, permissionDetails);
-
-        if (roleIds.isEmpty()) {
+    	if (roleIds.isEmpty()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Result: false");
             }
@@ -181,8 +180,7 @@ public class PermissionServiceImpl implements PermissionService {
         if (LOG.isDebugEnabled()) {
             LOG.debug( "Result: " + isAuthorized );
         }
-
-        return isAuthorized;
+		return isAuthorized;
     	
     }
     @Override

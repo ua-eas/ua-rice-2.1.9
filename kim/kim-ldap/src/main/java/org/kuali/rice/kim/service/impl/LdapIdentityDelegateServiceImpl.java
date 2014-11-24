@@ -229,8 +229,13 @@ public class LdapIdentityDelegateServiceImpl extends IdentityServiceImpl impleme
         return principalDao;
     } 
     
-    // **AZ UPGRADE 3.0-5.3** - implement LdapIdentityService interface
+    // begin **AZ UPGRADE 3.0-5.3** - implement LdapIdentityService interface
     public List<EntityDefault> findEntityDefaults(Map<String, String> criteria, boolean unbounded) {
         return principalDao.lookupEntityDefault(criteria, unbounded);
     }
+    
+    public EntityDefault getSystemEntityByPrincipalName(String principalName) {
+        return super.getEntityDefaultByPrincipalName(principalName);
+    }
+    // end - **AZ UPGRADE 3.0-5.3**
 }
