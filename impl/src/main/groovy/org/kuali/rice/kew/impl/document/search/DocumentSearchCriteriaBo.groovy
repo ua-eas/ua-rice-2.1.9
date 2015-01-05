@@ -32,13 +32,15 @@ import org.kuali.rice.kim.impl.group.GroupBo
 import org.kuali.rice.kim.api.identity.principal.Principal
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName
 
+// UAF-6 - changes to improve document search performance
+
 /**
  * Defines the business object that specifies the criteria used on document searches.
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 class DocumentSearchCriteriaBo implements BusinessObject {
-
+    Person initiatorPerson
     String documentTypeName
     String documentId
     String statusCode
@@ -62,6 +64,19 @@ class DocumentSearchCriteriaBo implements BusinessObject {
     Timestamp dateApplicationDocumentStatusChanged
     String saveName
 
+    DocumentSearchCriteriaBo() {}
+
+    DocumentSearchCriteriaBo(Document doc) {
+        documentTypeName = doc.documentTypeName
+        documentId = doc.documentId
+        statusCode = doc.status.code
+        applicationDocumentId = doc.applicationDocumentId
+        applicationDocumentStatus = doc.applicationDocumentStatus
+        title = doc.title
+        initiatorPrincipalId = doc.initiatorPrincipalId
+        dateCreated = new Timestamp(doc.dateCreated.getMillis())
+    }
+
     void refresh() {
         // nothing to refresh
     }
@@ -74,18 +89,39 @@ class DocumentSearchCriteriaBo implements BusinessObject {
     }
 
     Person getInitiatorPerson() {
-        if (initiatorPrincipalId == null) {
-            return null
+        if (initiatorPerson != null) {
+            return initiatorPerson
+        } else {
+            if (initiatorPrincipalId == null) {
+                return null
+            }
+            return KimApiServiceLocator.getPersonService().getPerson(initiatorPrincipalId)
         }
-        return KimApiServiceLocator.getPersonService().getPerson(initiatorPrincipalId)
     }
 
     String getInitiatorDisplayName() {
-        if(initiatorPrincipalId != null) {
-            EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(initiatorPrincipalId);
-            if(entityNamePrincipalName != null){
-                EntityName entityName = entityNamePrincipalName.getDefaultName();
-                return entityName == null ? null : entityName.getCompositeName();
+        if (initiatorPerson != null) {
+            String nm = "";
+            if (initiatorPerson.getFirstNameUnmasked() != null) {
+                nm += initiatorPerson.getFirstNameUnmasked();
+            }
+
+            if (initiatorPerson.getMiddleNameUnmasked() != null) {
+                nm += (" " + initiatorPerson.getMiddleNameUnmasked()); 
+            }
+
+            if (initiatorPerson.getLastNameUnmasked() != null) {
+                nm += (" " + initiatorPerson.getLastNameUnmasked()); 
+            }
+            
+            return nm;
+        } else {
+            if(initiatorPrincipalId != null) {
+                EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(initiatorPrincipalId);
+                if(entityNamePrincipalName != null){
+                    EntityName entityName = entityNamePrincipalName.getDefaultName();
+                    return entityName == null ? null : entityName.getCompositeName();
+                }
             }
         }
         return null;
@@ -152,13 +188,17 @@ class DocumentSearchCriteriaBo implements BusinessObject {
     }
 
     private String principalIdToName(String principalId) {
-        if (principalId != null && principalId.trim() ) {
-            Principal principal =  KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-            if(principal != null){
-                return principal.getPrincipalName();
+        if (initiatorPrincipalName != null) {
+            return initiatorPrincipalName;
+        } else {
+            if (principalId != null && principalId.trim() ) {
+                Principal principal =  KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
+                if(principal != null){
+                    return principal.getPrincipalName();
+                }
             }
         }
+
         return null
     }
-
 }
